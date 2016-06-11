@@ -191,6 +191,10 @@ GenericChatForm::GenericChatForm(QWidget *parent)
                                     QString(), this, SLOT(onSaveLogClicked()));
     clearAction = menu.addAction(QIcon::fromTheme("edit-clear"),
                                  QString(), this, SLOT(clearChatArea(bool)));
+
+    quoteAction = menu.addAction(QIcon(),
+                                 QString(), this, SLOT(quoteSelectedText()));
+
     menu.addSeparator();
 
     connect(emoteButton, &QPushButton::clicked,
@@ -199,6 +203,7 @@ GenericChatForm::GenericChatForm(QWidget *parent)
             this, &GenericChatForm::onChatContextMenuRequested);
 
     new QShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_L, this, SLOT(clearChatArea()));
+    new QShortcut(Qt::ALT + Qt::Key_Q, this, SLOT(quoteSelectedText()));
 
     chatWidget->setStyleSheet(Style::getStylesheet(":/ui/chatArea/chatArea.css"));
     headWidget->setStyleSheet(Style::getStylesheet(":/ui/chatArea/chatHead.css"));
@@ -315,6 +320,9 @@ ChatMessage::Ptr GenericChatForm::addMessage(const ToxId& author, const QString 
     bool authorIsActiveProfile = author.isSelf();
     QString authorStr = authorIsActiveProfile ? Core::getInstance()->getUsername() : resolveToxId(author);
 
+    if (getLatestDate() != QDate::currentDate())
+        addSystemInfoMessage(QDate::currentDate().toString(Settings::getInstance().getDateFormat()), ChatMessage::INFO, QDateTime());
+
     ChatMessage::Ptr msg;
     if (isAction)
     {
@@ -365,6 +373,7 @@ void GenericChatForm::onEmoteButtonClicked()
 
     EmoticonsWidget widget;
     connect(&widget, SIGNAL(insertEmoticon(QString)), this, SLOT(onEmoteInsertRequested(QString)));
+    widget.installEventFilter(this);
 
     QWidget* sender = qobject_cast<QWidget*>(QObject::sender());
     if (sender)
@@ -497,6 +506,15 @@ void GenericChatForm::resizeEvent(QResizeEvent* event)
 
 bool GenericChatForm::eventFilter(QObject* object, QEvent* event)
 {
+    EmoticonsWidget * ev = qobject_cast<EmoticonsWidget *>(object);
+    if (( ev) && (event->type() == QEvent::KeyPress) )
+    {
+        QKeyEvent* key = static_cast<QKeyEvent*>(event);
+        msgEdit->sendKeyEvent(key);
+        msgEdit->setFocus();
+        return false;
+    }
+
     if (object != this->fileButton && object != this->fileFlyout)
         return false;
 
@@ -549,6 +567,26 @@ void GenericChatForm::onShowMessagesClicked()
     }
 }
 
+void GenericChatForm::quoteSelectedText()
+{
+    QString selectedText = chatWidget->getSelectedText();
+
+    if (selectedText.isEmpty())
+        return;
+
+    // forming pretty quote text
+    // 1. insert "> " to the begining of quote;
+    // 2. replace all possible line terminators with "\n> ";
+    // 3. append new line to the end of quote.
+    QString quote = selectedText;
+
+    quote.insert(0, "> ");
+    quote.replace(QRegExp(QString("\r\n|[\r\n\u2028\u2029]")), QString("\n> "));
+    quote.append("\n");
+
+    msgEdit->append(quote);
+}
+
 void GenericChatForm::retranslateUi()
 {
     QString callObjectName = callButton->objectName();
@@ -574,6 +612,7 @@ void GenericChatForm::retranslateUi()
     screenshotButton->setToolTip(tr("Send a screenshot"));
     saveChatAction->setText(tr("Save chat log"));
     clearAction->setText(tr("Clear displayed messages"));
+    quoteAction->setText(tr("Quote selected text"));
 }
 
 void GenericChatForm::showNetcam()

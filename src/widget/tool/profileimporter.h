@@ -1,5 +1,5 @@
 /*
-    Copyright © 2014-2015 by The qTox Project
+    Copyright © 2015-2016 by The qTox Project
 
     This file is part of qTox, a Qt-based graphical interface for Tox.
 
@@ -17,33 +17,22 @@
     along with qTox.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHATTEXTEDIT_H
-#define CHATTEXTEDIT_H
+#ifndef PROFILEIMPORTER_H
+#define PROFILEIMPORTER_H
 
-#include <QTextEdit>
+#include <QWidget>
 
-class ChatTextEdit final : public QTextEdit
+class ProfileImporter : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit ChatTextEdit(QWidget *parent = 0);
-    ~ChatTextEdit();
-    void setLastMessage(QString lm);
-    void sendKeyEvent(QKeyEvent * event);
+    explicit ProfileImporter(QWidget *parent = 0);
+    bool importProfile();
 
 signals:
-    void enterPressed();
-    void tabPressed();
-    void keyPressed();
 
-protected:
-    virtual void keyPressEvent(QKeyEvent * event) final override;
-
-private:
-    void retranslateUi();
-
-private:
-    QString lastMessage;
+public slots:
 };
 
-#endif // CHATTEXTEDIT_H
+#endif // PROFILEIMPORTER_H

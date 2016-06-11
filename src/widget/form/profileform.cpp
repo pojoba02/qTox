@@ -122,6 +122,8 @@ ProfileForm::ProfileForm(QWidget *parent) :
     connect(bodyUI->logoutButton, &QPushButton::clicked, this, &ProfileForm::onLogoutClicked);
     connect(bodyUI->deletePassButton, &QPushButton::clicked, this, &ProfileForm::onDeletePassClicked);
     connect(bodyUI->changePassButton, &QPushButton::clicked, this, &ProfileForm::onChangePassClicked);
+    connect(bodyUI->deletePassButton, &QPushButton::clicked, this, &ProfileForm::setPasswordButtonsText);
+    connect(bodyUI->changePassButton, &QPushButton::clicked, this, &ProfileForm::setPasswordButtonsText);
     connect(bodyUI->saveQr, &QPushButton::clicked, this, &ProfileForm::onSaveQrClicked);
     connect(bodyUI->copyQr, &QPushButton::clicked, this, &ProfileForm::onCopyQrClicked);
     connect(bodyUI->toxmeRegisterButton, &QPushButton::clicked, this, &ProfileForm::onRegisterButtonClicked);
@@ -361,7 +363,23 @@ void ProfileForm::onDeleteClicked()
                 tr("Are you sure you want to delete this profile?", "deletion confirmation text")))
     {
         Nexus& nexus = Nexus::getInstance();
-        nexus.getProfile()->remove();
+
+        QVector<QString> manualDeleteFiles = nexus.getProfile()->remove();
+
+        if(!manualDeleteFiles.empty())
+        {
+            QString message = tr("The following files could not be deleted:", "deletion failed text part 1") + "\n\n";
+
+            for(auto& file : manualDeleteFiles)
+            {
+                message = message + file + "\n";
+            }
+
+            message = message + "\n" + tr("Please manually remove them.", "deletion failed text part 2");
+
+            GUI::showError(tr("Files could not be deleted!", "deletion failed title"), message);
+        }
+
         nexus.showLogin();
     }
 }
@@ -371,6 +389,20 @@ void ProfileForm::onLogoutClicked()
     Nexus& nexus = Nexus::getInstance();
     Settings::getInstance().saveGlobal();
     nexus.showLogin();
+}
+
+void ProfileForm::setPasswordButtonsText()
+{
+    if (Nexus::getProfile()->isEncrypted())
+    {
+        bodyUI->changePassButton->setText(tr("Change password", "button text"));
+        bodyUI->deletePassButton->setVisible(true);
+    }
+    else
+    {
+        bodyUI->changePassButton->setText(tr("Set profile password", "button text"));
+        bodyUI->deletePassButton->setVisible(false);
+    }
 }
 
 void ProfileForm::onCopyQrClicked()
@@ -428,6 +460,7 @@ void ProfileForm::retranslateUi()
 {
     bodyUI->retranslateUi(this);
     nameLabel->setText(tr("User Profile"));
+    setPasswordButtonsText();
     // We have to add the toxId tooltip here and not in the .ui or Qt won't know how to translate it dynamically
     toxId->setToolTip(tr("This bunch of characters tells other Tox clients how to contact you.\nShare it with your friends to communicate."));
 }
@@ -504,7 +537,9 @@ void ProfileForm::onRegisterButtonClicked()
             break;
         default:
             QString errorMessage = Toxme::getErrorMessage(code);
-            GUI::showWarning(tr("Toxme error"),  errorMessage);
+            qWarning() << errorMessage;
+            QString translated = Toxme::translateErrorMessage(code);
+            GUI::showWarning(tr("Toxme error"),  translated);
         }
 
         bodyUI->toxmeRegisterButton->setEnabled(true);

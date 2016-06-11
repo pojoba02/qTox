@@ -29,7 +29,6 @@
     - [openSUSE](#opensuse-toxcore)
     - [Slackware](#slackware-toxcore)
     - [Ubuntu >=15.04](#ubuntu-toxcore)
-  - [filter_audio](#filter_audio)
   - [sqlcipher](#sqlcipher)
   - [Compile toxcore](#compile-toxcore)
   - [Compile qTox](#compile-qtox)
@@ -46,7 +45,6 @@
 | toxcore       | most recent | core, av                                          |
 | FFmpeg        | >= 2.6.0    | avformat, avdevice, avcodec, avutil, swscale      |
 | OpenAL Soft   | >= 1.16.0   |                                                   |
-| filter_audio  | most recent |                                                   |
 | qrencode      | >= 3.0.3    |                                                   |
 | sqlcipher     | >= 3.2.0    |                                                   |
 | libXScrnSaver | >= 1.2      |                                                   |
@@ -62,6 +60,12 @@ Easy qTox install is provided for variety of distributions:
 * [Arch](#arch)
 * [Gentoo](#gentoo)
 * [Slackware](#slackware)
+
+#### Community builds
+
+There are community builds for wide range of distrubutions:
+
+https://software.opensuse.org/download.html?project=home%3Aantonbatenev%3Atox&package=qtox
 
 
 #### Generic
@@ -292,60 +296,11 @@ libopus-dev libvpx-dev libsodium-dev
 ```
 
 
-### filter_audio
-This step is  best done before compiling toxcore.
-
-Now you can either follow the instructions at
-https://github.com/irungentoo/toxcore/blob/master/INSTALL.md#unix or use the
-[`bootstrap.sh`](/bootstrap.sh) script. The script will automatically download
-and install `toxcore` and `libfilteraudio`:
-```bash
-## in qTox directory
-./bootstrap.sh # use -h or --help for more information
-
-```
-If you've used script, you can skip directly to [compiling qTox](#compile-qtox).
-
-If you want to compile and install it manually:
-```bash
-git clone https://github.com/irungentoo/filter_audio
-cd filter_audio
-make -j$(nproc)
-sudo make install
-```
-
 ### sqlcipher
 
 If you are not using Fedora, skip this section, and go directly to compiling
 [**toxcore**](#toxcore-compiling).
 
-This method automatically detects whether to link statically or dynamically,
-depending on your system configs.
-```bash
-git clone https://github.com/sqlcipher/sqlcipher
-cd sqlcipher
-autoreconf -if
-./configure
-make -j$(nproc)
-sudo make install
-cd ..
-```
-If you wish to explicitly link sqlcipher
-[statically](#statically-linked-sqlcipher) or
-[dynamically](#dynamically-linked-sqlcipher).
-
-#### Statically linked sqlcipher
-```bash
-git clone https://github.com/sqlcipher/sqlcipher
-cd sqlpcipher
-./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" \
-    LDFLAGS="/opt/local/lib/libcrypto.a"
-make
-sudo make install
-cd ..
-```
-
-#### Dynamically linked sqlcipher
 ```bash
 git clone https://github.com/sqlcipher/sqlcipher
 cd sqlcipher
@@ -480,15 +435,6 @@ brew install git ffmpeg qrencode libtool automake autoconf check qt5 libvpx \
 opus sqlcipher libsodium
 ```
 
-Next, install [filter_audio](https://github.com/irungentoo/filter_audio) (you
-may delete the directory it creates afterwards):
-```bash
-git clone https://github.com/irungentoo/filter_audio.git
-cd filter_audio
-sudo make install
-cd ../
-```
-
 Next, install
 [toxcore](https://github.com/irungentoo/toxcore/blob/master/INSTALL.md#osx)
 
@@ -563,13 +509,23 @@ Download the MinGW installer for Windows from
 [sourceforge.net](http://sourceforge.net/projects/mingw/files/Installer/). Make
 sure to install MSYS (a set of Unix tools for Windows). The following steps
 assume that MinGW is installed at `C:\MinGW`. If you decided to choose another
-location, replace corresponding parts. Check that the version of MinGW,
-corresponds to the version of the QT component!
+location, replace corresponding parts. Select `mingw-developer-toolkit`, 
+`mingw32-base`, `mingw32-gcc-g++`, `msys-base` and `mingw32-pthreads-w32` 
+packages using MinGW Installation Manager (`mingw-get.exe`). Check that the 
+version of MinGW, corresponds to the version of the QT component!
 
 ### Wget
+
 Download the Wget installer for Windows from
 http://gnuwin32.sourceforge.net/packages/wget.htm. Install them. The following
 steps assume that Wget is installed at `C:\Program Files\GnuWin32\`. If you
+decided to choose another location, replace corresponding parts.
+
+### UnZip
+
+Download the UnZip installer for Windows from
+http://gnuwin32.sourceforge.net/packages/unzip.htm. Install it. The following
+steps assume that UnZip is installed at `C:\Program Files\GnuWin32\`. If you
 decided to choose another location, replace corresponding parts.
 
 ### Setting up Path
@@ -581,7 +537,7 @@ select tab `Advanced system settings` -> button `Environment Variables`). In the
 second box search for the `PATH` variable and press `Edit...`. The input box
 `Variable value:` should already contain some directories. Each directory is
 separated with a semicolon. Extend the input box by adding
-`;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;C:\Program Files (x86)\CMake 2.8\bin;C:\Program Files\GnuWin32\bin`.
+`;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;C:\Program Files (x86)\CMake 2.8\bin;C:\Program Files\GnuWin32\bin;C:\Program Files (x86)\GnuWin32\bin`.
 The very first semicolon must only be added if it is missing. CMake may be added
 by installer automatically.
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_MX">
+<TS version="2.0" language="es_MX">
 <context>
     <name>AVForm</name>
     <message>
@@ -74,20 +74,12 @@ se pueden producir problemas con las videollamadas.</translation>
         <source>Rescan devices</source>
         <translation>Volver a detectar dispositivos</translation>
     </message>
-    <message>
-        <source>Use slider to set volume of your microphone.</source>
-        <translation>Usa el control deslizante para ajustar el volumen del micrófono.</translation>
-    </message>
 </context>
 <context>
     <name>AboutForm</name>
     <message>
         <source>About</source>
         <translation>Acerca de</translation>
-    </message>
-    <message>
-        <source>Qt version:</source>
-        <translation>Versión de Qt:</translation>
     </message>
     <message>
         <source>Restart qTox to install version %1</source>
@@ -97,6 +89,22 @@ se pueden producir problemas con las videollamadas.</translation>
         <source>qTox is downloading update %1</source>
         <comment>%1 is the version of the update</comment>
         <translation>qTox está descargando la actualización %1</translation>
+    </message>
+    <message>
+        <source>A list of all known issues may be found at our %1 at Github. If you discover a bug or security vulnerability within qTox, please %3 according to the guidelines in our %2 wiki article.</source>
+        <translation>Puedes encontrar una lista de problemas conocidos en nuestro %1 en Github. Si descubres un error o vulnerabilidad en qTox, por favor %3 según las normas descritas en el artículo &quot;%2&quot; de nuestra wiki.</translation>
+    </message>
+    <message>
+        <source>bug-tracker</source>
+        <translation>bug-tracker</translation>
+    </message>
+    <message>
+        <source>Writing Useful Bug Reports</source>
+        <translation>Writing Useful Bug Reports</translation>
+    </message>
+    <message>
+        <source>report it</source>
+        <translation>repórtalo</translation>
     </message>
 </context>
 <context>
@@ -138,12 +146,8 @@ se pueden producir problemas con las videollamadas.</translation>
         <translation>Problemas Conocidos</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A list of all known issues may be found at our &lt;a href=&quot;https://github.com/tux3/qTox/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;bug-tracker&lt;/span&gt;&lt;/a&gt; at Github. If you discover a bug or security vulnerability within qTox, please report it according to the guidelines in our &lt;a href=&quot;https://github.com/tux3/qTox/wiki/Writing-Useful-Bug-Reports&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Writing Useful Bug Reports&lt;/span&gt;&lt;/a&gt; wiki article.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Puedes encontrar una lista de problemas conocidos en el &lt;a href=&quot;https://github.com/tux3/qTox/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;bug-tracker&lt;/span&gt;&lt;/a&gt; en Github. Si encuentras un error o una falla de seguridad en qTox, por favor repórtalo siguiendo las instrucciones de nuestro artículo &lt;a href=&quot;https://github.com/tux3/qTox/wiki/Writing-Useful-Bug-Reports&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Como Escribir Reportes de Fallos Útiles&lt;/span&gt;&lt;/a&gt; en la wiki.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Qt version:</source>
-        <translation>Versión de Qt:</translation>
+        <source>Qt version: $QTVERSION</source>
+        <translation>Versión de Qt: $QTVERSION</translation>
     </message>
 </context>
 <context>
@@ -310,49 +314,6 @@ se pueden producir problemas con las videollamadas.</translation>
     </message>
 </context>
 <context>
-    <name>Android</name>
-    <message>
-        <source>Form</source>
-        <translation>Plantilla</translation>
-    </message>
-    <message>
-        <source>qTox</source>
-        <translation>qTox</translation>
-    </message>
-    <message>
-        <source>Someone</source>
-        <translation>Alguien</translation>
-    </message>
-    <message>
-        <source>Someone else</source>
-        <translation>Alguien más</translation>
-    </message>
-    <message>
-        <source>Groupbot</source>
-        <translation>Groupbot</translation>
-    </message>
-    <message>
-        <source>That guy who I don&apos;t remember adding</source>
-        <translation>Esa persona que no recuerdo haber agregado</translation>
-    </message>
-    <message>
-        <source>NASA manager</source>
-        <translation>Director de la NASA</translation>
-    </message>
-    <message>
-        <source>Lorem</source>
-        <translation>Lorem</translation>
-    </message>
-    <message>
-        <source>Ipsum</source>
-        <translation>Ipsum</translation>
-    </message>
-    <message>
-        <source>Dolor</source>
-        <translation>Dolor</translation>
-    </message>
-</context>
-<context>
     <name>ChatForm</name>
     <message>
         <source>Send a file</source>
@@ -454,6 +415,14 @@ se pueden producir problemas con las videollamadas.</translation>
     <message>
         <source>Calling %1</source>
         <translation>Llamando a %1</translation>
+    </message>
+    <message>
+        <source>%1 is typing</source>
+        <translation>%1 está escribiendo</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
     </message>
 </context>
 <context>
@@ -1017,10 +986,6 @@ en lugar de la barra de tareas del sistema.</translation>
         <translation>Poner chats grupales al comienzo de la lista de amigos</translation>
     </message>
     <message>
-        <source>Markdown:</source>
-        <translation>Markdown:</translation>
-    </message>
-    <message>
         <source>Select Markdown preference.</source>
         <translation>Seleccionar preferencia de Markdown.</translation>
     </message>
@@ -1127,6 +1092,26 @@ Hazlo sólo en caso de ser necesario.</translation>
         <extracomment>Text on proxy port label</extracomment>
         <translation>Puerto:</translation>
     </message>
+    <message>
+        <source>Text formatting (Markdown):</source>
+        <translation>Formato de texto (Markdown):</translation>
+    </message>
+    <message>
+        <source>Plaintext</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show formatting characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t show formatting characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play sound while Busy</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GenericChatForm</name>
@@ -1185,6 +1170,10 @@ Hazlo sólo en caso de ser necesario.</translation>
     <message>
         <source>End video call</source>
         <translation>Terminar la videollamada</translation>
+    </message>
+    <message>
+        <source>Quote selected text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1401,6 +1390,38 @@ El perfil no contiene tu historial.</translation>
         <comment>delete profile button</comment>
         <translation>Eliminar</translation>
     </message>
+    <message>
+        <source>Toxme register</source>
+        <translation>Registro Toxme</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Nombre de usuario</translation>
+    </message>
+    <message>
+        <source>Biography</source>
+        <translation>Biografía</translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation>Servidor</translation>
+    </message>
+    <message>
+        <source>Hide my name from the public list</source>
+        <translation>Ocultar mi nombre de la lista pública</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>Registrar</translation>
+    </message>
+    <message>
+        <source>Your password</source>
+        <translation>Tu contraseña</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualizar</translation>
+    </message>
 </context>
 <context>
     <name>LoadHistoryDialog</name>
@@ -1484,10 +1505,6 @@ If you encountered this error, please report it.</source>
 Por favor reporta este error.</translation>
     </message>
     <message>
-        <source>Password protected profile can&apos;t be loaded automatically.</source>
-        <translation>No se puede cargar automaticamente un perfil protegido con contraseña.</translation>
-    </message>
-    <message>
         <source>Couldn&apos;t load this profile</source>
         <translation>No se pudo cargar el perfil</translation>
     </message>
@@ -1514,6 +1531,14 @@ You may want to create one.</source>
         <translation>No has seleccionado ningún perfil.
 
 ¿Quizás quieres crear uno nuevo?</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>Importar</translation>
+    </message>
+    <message>
+        <source>Password protected profiles can&apos;t be automatically loaded.</source>
+        <translation>Perfiles protegidos con contraseña no pueden ser cargados automáticamente.</translation>
     </message>
 </context>
 <context>
@@ -1794,6 +1819,96 @@ Compártelo con tus amigos para poder comunicarte.</translation>
         <source>User Profile</source>
         <translation>Perfil de Usuario</translation>
     </message>
+    <message>
+        <source>The following files could not be deleted:</source>
+        <comment>deletion failed text part 1</comment>
+        <translation>Los siguientes archivos no pudieron ser eliminados:</translation>
+    </message>
+    <message>
+        <source>Please manually remove them.</source>
+        <comment>deletion failed text part 2</comment>
+        <translation>Por favor elimínalos manualmente.</translation>
+    </message>
+    <message>
+        <source>Files could not be deleted!</source>
+        <comment>deletion failed title</comment>
+        <translation>Error al eliminar archivos</translation>
+    </message>
+    <message>
+        <source>Register (processing)</source>
+        <translation>Registro (procesando)</translation>
+    </message>
+    <message>
+        <source>Update (processing)</source>
+        <translation>Actualización (procesando)</translation>
+    </message>
+    <message>
+        <source>Done!</source>
+        <translation>Finalizado!</translation>
+    </message>
+    <message>
+        <source>Account %1@%2 updated successfully</source>
+        <translation>Cuenta %1@%2 actualizada exitósamente</translation>
+    </message>
+    <message>
+        <source>Successfully added %1@%2 to the database. Save your password</source>
+        <translation>Cuenta %1@%2 agregada exitosamente a la base de datos. Respalda tu contraseña</translation>
+    </message>
+    <message>
+        <source>Toxme error</source>
+        <translation>Error en Toxme</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>Registrar</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualizar</translation>
+    </message>
+    <message>
+        <source>Change password</source>
+        <comment>button text</comment>
+        <translation type="unfinished">Cambiar contraseña</translation>
+    </message>
+    <message>
+        <source>Set profile password</source>
+        <comment>button text</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProfileImporter</name>
+    <message>
+        <source>Import profile</source>
+        <comment>import dialog title</comment>
+        <translation>Importar perfil</translation>
+    </message>
+    <message>
+        <source>Tox save file (*.tox)</source>
+        <comment>import dialog filter</comment>
+        <translation>Archivo Tox (*.tox)</translation>
+    </message>
+    <message>
+        <source>Ignoring non-Tox file</source>
+        <comment>popup title</comment>
+        <translation>Ignorando archivo no Tox</translation>
+    </message>
+    <message>
+        <source>Warning: You have chosen a file that is not a Tox save file; ignoring.</source>
+        <comment>popup text</comment>
+        <translation>Advertencia: el archivo Tox seleccionado es inválido y ha sido ignorado.</translation>
+    </message>
+    <message>
+        <source>Profile already exists</source>
+        <comment>import confirm title</comment>
+        <translation>Perfil ya existe</translation>
+    </message>
+    <message>
+        <source>A profile named &quot;%1&quot; already exists. Do you want to erase it?</source>
+        <comment>import confirm text</comment>
+        <translation>Un perfil llamado &quot;%1&quot; ya existe. ¿Deseas eliminarlo?</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1896,28 +2011,12 @@ Será instalada cuando reinicies qTox.</translation>
         <translation>Pantalla</translation>
     </message>
     <message>
-        <source>Incorrect response</source>
-        <translation>Respuesta incorrecta</translation>
-    </message>
-    <message>
-        <source>No password in response</source>
-        <translation>Respuesta sin contraseña</translation>
-    </message>
-    <message>
         <source>Server doesn&apos;t support Toxme</source>
         <translation>El servidor no soporta Toxme</translation>
     </message>
     <message>
-        <source>You must send POST requests to /api</source>
-        <translation>Tienes que mandar una petición POST a /api</translation>
-    </message>
-    <message>
-        <source>Please try again using a HTTPS connection</source>
-        <translation>Inténtalo de nuevo usando una conexión HTTPS</translation>
-    </message>
-    <message>
-        <source>I was unable to read your encrypted payload</source>
-        <translation>No fue posible leer tu payload cifrado</translation>
+        <source>Problem with HTTPS connection</source>
+        <translation>Problema con la conexión HTTPS</translation>
     </message>
     <message>
         <source>You&apos;re making too many requests. Wait an hour and try again</source>
@@ -1952,20 +2051,12 @@ Será instalada cuando reinicies qTox.</translation>
         <translation>No se envió la Tox ID</translation>
     </message>
     <message>
-        <source>Lookup failed because the server replied with invalid data</source>
-        <translation>La consulta falló debido a datos inválidos enviados por el servidor</translation>
+        <source>Internal ToxMe error</source>
+        <translation>Error interno de Toxme</translation>
     </message>
     <message>
         <source>That user does not exist</source>
         <translation>Ese usuario no existe</translation>
-    </message>
-    <message>
-        <source>Internal lookup error. Please file a bug</source>
-        <translation>Fallo interno en la consulta. Por favor reporta este error</translation>
-    </message>
-    <message>
-        <source>Unknown error (%1)</source>
-        <translation>Error desconocido (%1)</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2313,6 +2404,10 @@ Será instalada cuando reinicies qTox.</translation>
         <source>Exit</source>
         <comment>Tray action menu to exit tox</comment>
         <translation>Salir</translation>
+    </message>
+    <message>
+        <source>Groupchat #%1</source>
+        <translation>Chat grupal #%1</translation>
     </message>
 </context>
 </TS>

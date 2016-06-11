@@ -169,6 +169,9 @@ public:
     bool getNotifySound() const;
     void setNotifySound(bool newValue);
 
+    bool getBusySound() const;
+    void setBusySound(bool newValue);
+
     bool getGroupAlwaysNotify() const;
     void setGroupAlwaysNotify(bool newValue);
 
@@ -178,14 +181,11 @@ public:
     QString getOutDev() const;
     void setOutDev(const QString& deviceSpecifier);
 
-    int getInVolume() const;
-    void setInVolume(int volume);
+    qreal getAudioInGain() const;
+    void setAudioInGain(qreal dB);
 
     int getOutVolume() const;
     void setOutVolume(int volume);
-
-    bool getFilterAudio() const;
-    void setFilterAudio(bool newValue);
 
     QString getVideoDev() const;
     void setVideoDev(const QString& deviceSpecifier);
@@ -372,6 +372,7 @@ private:
     bool showWindow;
     bool showInFront;
     bool notifySound;
+    bool busySound;
     bool groupAlwaysNotify;
 
     bool forceTCP;
@@ -428,9 +429,8 @@ private:
     // Audio
     QString inDev;
     QString outDev;
-    int inVolume;
+    qreal audioInGainDecibel;
     int outVolume;
-    bool filterAudio;
 
     // Video
     QString videoDev;

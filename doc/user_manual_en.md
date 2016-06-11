@@ -6,6 +6,7 @@
 * [Settings](#settings)
 * [Groupchats](#groupchats)
 * [Message Styling](#message-styling)
+* [Quotes](#quotes)
 * [Multi Window Mode](#multi-window-mode)
 * [Keyboard Shortcuts](#keyboard-shortcuts)
 
@@ -37,9 +38,16 @@ can open it by clicking the picture in the top left corner. It contains the
 following settings:
 
 ### Public Information
-* _Name:_ This is your nickname which everyone who has your Tox ID can see.
-* _Status:_ You can post a status message here, which again everyone on who has
-  your Tox ID can see.
+
+* _Name:_ This is your nickname which everyone who is on your contact list can
+  see.
+* _Status:_ You can post a status message here, which again everyone on your
+  contact list can see.
+
+#### Avatar
+
+Your profile picture that all your friends can see. To add or change, click on
+the avatar. To remove, right-click.
 
 ### Tox ID
 
@@ -232,6 +240,16 @@ Additionally, qTox supports three modes of Markdown parsing:
 
 *Note that any change in Markdown preference will require a restart.*
 
+## Quotes
+
+qTox has feature to quote selected text in chat window:
+
+1. Select the text you want to quote.
+2. Right-click on the selected text and choose "Quote selected text" in the
+context menu. You also can use `ALT` + `q` shortcut.
+3. Selected text will be automatically quoted into the message input area in a
+pretty formatting.
+
 ## Multi Window Mode
 
 In this mode, qTox will separate its main window into a single contact list and
@@ -253,3 +271,4 @@ The following shortcuts are currently supported:
 | `CTRL` + `Page Up` | Switch to the previous contact|
 | `CTRL` + `TAB` | Switch to the next contact |
 | `CTRL` + `SHIFT` + `TAB` | Switch to the previous contact|
+| `ALT` + `q` | Quote selected text |

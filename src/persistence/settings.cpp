@@ -171,6 +171,7 @@ void Settings::loadGlobal()
         showWindow = s.value("showWindow", true).toBool();
         showInFront = s.value("showInFront", false).toBool();
         notifySound = s.value("notifySound", true).toBool();
+        busySound = s.value("busySound", false).toBool();
         groupAlwaysNotify = s.value("groupAlwaysNotify", false).toBool();
         fauxOfflineMessaging = s.value("fauxOfflineMessaging", true).toBool();
         autoSaveEnabled = s.value("autoSaveEnabled", false).toBool();
@@ -235,9 +236,8 @@ void Settings::loadGlobal()
     s.beginGroup("Audio");
         inDev = s.value("inDev", "").toString();
         outDev = s.value("outDev", "").toString();
-        inVolume = s.value("inVolume", 100).toInt();
+        audioInGainDecibel = s.value("inGain", 0).toReal();
         outVolume = s.value("outVolume", 100).toInt();
-        filterAudio = s.value("filterAudio", false).toBool();
     s.endGroup();
 
     s.beginGroup("Video");
@@ -417,6 +417,7 @@ void Settings::saveGlobal()
         s.setValue("showWindow", showWindow);
         s.setValue("showInFront", showInFront);
         s.setValue("notifySound", notifySound);
+        s.setValue("busySound", busySound);
         s.setValue("groupAlwaysNotify", groupAlwaysNotify);
         s.setValue("fauxOfflineMessaging", fauxOfflineMessaging);
         s.setValue("separateWindow", separateWindow);
@@ -465,9 +466,8 @@ void Settings::saveGlobal()
     s.beginGroup("Audio");
         s.setValue("inDev", inDev);
         s.setValue("outDev", outDev);
-        s.setValue("inVolume", inVolume);
+        s.setValue("inGain", audioInGainDecibel);
         s.setValue("outVolume", outVolume);
-        s.setValue("filterAudio", filterAudio);
     s.endGroup();
 
     s.beginGroup("Video");
@@ -826,6 +826,18 @@ void Settings::setNotifySound(bool newValue)
 {
     QMutexLocker locker{&bigLock};
     notifySound = newValue;
+}
+
+bool Settings::getBusySound() const
+{
+    QMutexLocker locker{&bigLock};
+    return busySound;
+}
+
+void Settings::setBusySound(bool newValue)
+{
+    QMutexLocker locker{&bigLock};
+    busySound = newValue;
 }
 
 bool Settings::getGroupAlwaysNotify() const
@@ -1352,16 +1364,16 @@ void Settings::setInDev(const QString& deviceSpecifier)
     inDev = deviceSpecifier;
 }
 
-int Settings::getInVolume() const
+qreal Settings::getAudioInGain() const
 {
     QMutexLocker locker{&bigLock};
-    return inVolume;
+    return audioInGainDecibel;
 }
 
-void Settings::setInVolume(int volume)
+void Settings::setAudioInGain(qreal dB)
 {
     QMutexLocker locker{&bigLock};
-    inVolume = volume;
+    audioInGainDecibel = dB;
 }
 
 QString Settings::getVideoDev() const
@@ -1398,19 +1410,6 @@ void Settings::setOutVolume(int volume)
 {
     QMutexLocker locker{&bigLock};
     outVolume = volume;
-}
-
-bool Settings::getFilterAudio() const
-{
-    QMutexLocker locker{&bigLock};
-    // temporary disable filteraudio, as it doesn't work as expected
-    return false;
-}
-
-void Settings::setFilterAudio(bool newValue)
-{
-    QMutexLocker locker{&bigLock};
-    filterAudio = newValue;
 }
 
 QSize Settings::getCamVideoRes() const

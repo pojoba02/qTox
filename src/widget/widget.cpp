@@ -83,12 +83,6 @@
 #include <QSignalMapper>
 #endif
 
-#ifdef Q_OS_ANDROID
-#define IS_ON_DESKTOP_GUI 0
-#else
-#define IS_ON_DESKTOP_GUI 1
-#endif
-
 bool toxActivateEventHandler(const QByteArray&)
 {
     Widget* widget = Nexus::getDesktopGUI();
@@ -126,7 +120,8 @@ void Widget::init()
     timer = new QTimer();
     timer->start(1000);
     offlineMsgTimer = new QTimer();
-    offlineMsgTimer->start(15000);
+    // FIXME: ↓ make a proper fix instead of increasing timeout into ∞
+    offlineMsgTimer->start(2*60*1000);
 
     icon_size = 15;
     statusOnline = new QAction(this);
@@ -530,8 +525,6 @@ Widget::~Widget()
 
 Widget* Widget::getInstance()
 {
-    assert(IS_ON_DESKTOP_GUI); // Widget must only be used on Desktop platforms
-
     if (!instance)
         instance = new Widget();
 
@@ -1018,9 +1011,7 @@ void Widget::onFriendStatusChanged(int friendId, Status status)
 
     ContentDialog::updateFriendStatus(friendId);
 
-    //won't print the message if there were no messages before
-    if (!f->getChatForm()->isEmpty()
-            && Settings::getInstance().getStatusChangeNotificationEnabled())
+    if (Settings::getInstance().getStatusChangeNotificationEnabled())
     {
         QString fStatus = "";
         switch (f->getStatus())
@@ -1198,14 +1189,35 @@ bool Widget::newFriendMessageAlert(int friendId, bool sound)
     }
     else
     {
-        currentWindow = window();
-        hasActive = f->getFriendWidget() == activeChatroomWidget;
+        if (Settings::getInstance().getSeparateWindow())
+        {
+            if (Settings::getInstance().getDontGroupWindows())
+            {
+                contentDialog = createContentDialog();
+            }
+            else
+            {
+                contentDialog = ContentDialog::current();
+                if (!contentDialog)
+                    contentDialog = createContentDialog();
+            }
+
+            addFriendDialog(f, contentDialog);
+            currentWindow = contentDialog->window();
+            hasActive = ContentDialog::isFriendWidgetActive(friendId);
+        }
+        else
+        {
+            currentWindow = window();
+            hasActive = f->getFriendWidget() == activeChatroomWidget;
+        }
     }
 
     if (newMessageAlert(currentWindow, hasActive, sound))
     {
         f->setEventFlag(true);
         f->getFriendWidget()->updateStatusLight();
+        ui->friendList->trackWidget(f->getFriendWidget());
 
         if (contentDialog == nullptr)
         {
@@ -1303,7 +1315,11 @@ bool Widget::newMessageAlert(QWidget* currentWindow, bool isActive, bool sound, 
                 currentWindow->activateWindow();
         }
 
-        if (Settings::getInstance().getNotifySound() && sound)
+        bool isBusy = Nexus::getCore()->getStatus() == Status::Busy;
+        bool busySound = Settings::getInstance().getBusySound();
+        bool notifySound = Settings::getInstance().getNotifySound();
+
+        if (notifySound && sound && (!isBusy || busySound))
             Audio::getInstance().playMono16Sound(QStringLiteral(":/audio/notification.pcm"));
     }
 
@@ -1387,10 +1403,14 @@ void Widget::clearContactsList()
         removeGroup(g, true);
 }
 
+void Widget::updateScroll(GenericChatroomWidget *widget) {
+    ui->friendList->updateTracking(widget);
+}
+
+
 ContentDialog* Widget::createContentDialog() const
 {
     ContentDialog* contentDialog = new ContentDialog(settingsWidget);
-    contentDialog->show();
 #ifdef Q_OS_MAC
     connect(contentDialog, &ContentDialog::destroyed, &Nexus::getInstance(), &Nexus::updateWindowsClosed);
     connect(contentDialog, &ContentDialog::windowStateChanged, &Nexus::getInstance(), &Nexus::onWindowStateChanged);
@@ -1683,6 +1703,9 @@ bool Widget::event(QEvent * e)
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonDblClick:
             focusChatInput();
+            break;
+        case QEvent::Paint:
+            ui->friendList->updateVisualTracking();
             break;
         case QEvent::WindowActivate:
             if (activeChatroomWidget != nullptr)

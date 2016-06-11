@@ -42,9 +42,6 @@
 #include <AL/alext.h>
 #endif
 
-#ifdef QTOX_FILTER_AUDIO
-#include "audiofilterer.h"
-#endif
 
 // Public default audio settings
 static constexpr uint32_t AUDIO_SAMPLE_RATE = 48000; ///< The next best Opus would take is 24k
@@ -56,20 +53,26 @@ class Audio : public QObject
 {
     Q_OBJECT
 
+    class Private;
+
 public:
     static Audio& getInstance();
 
-    ALfloat outputVolume();
-    void setOutputVolume(ALfloat volume);
+    qreal outputVolume() const;
+    void setOutputVolume(qreal volume);
 
-    ALfloat inputVolume();
-    void setInputVolume(ALfloat volume);
+    qreal minInputGain() const;
+    void setMinInputGain(qreal dB);
+    qreal maxInputGain() const;
+    void setMaxInputGain(qreal dB);
+    qreal inputGain() const;
+    void setInputGain(qreal dB);
 
     void reinitInput(const QString& inDevDesc);
     bool reinitOutput(const QString& outDevDesc);
 
-    bool isInputReady();
-    bool isOutputReady();
+    bool isInputReady() const;
+    bool isOutputReady() const;
 
     static const char* outDeviceNames();
     static const char* inDeviceNames();
@@ -109,16 +112,16 @@ private:
     void playMono16SoundCleanup();
     /// Called on the captureTimer events to capture audio
     void doCapture();
-#if defined(QTOX_FILTER_AUDIO) && defined(ALC_LOOPBACK_CAPTURE_SAMPLES)
-    void getEchoesToFilter(AudioFilterer* filter, int samples);
-#endif
+
+
+private:
+    Private* d;
 
 private:
     QThread*            audioThread;
-    QMutex              audioLock;
+    mutable QMutex      audioLock;
 
     ALCdevice*          alInDev;
-    ALfloat             inGain;
     quint32             inSubscriptions;
     QTimer              captureTimer, playMono16Timer;
 
@@ -129,9 +132,6 @@ private:
     bool                outputInitialized;
 
     QList<ALuint>       outSources;
-#ifdef QTOX_FILTER_AUDIO
-    AudioFilterer filterer;
-#endif
 };
 
 #endif // AUDIO_H

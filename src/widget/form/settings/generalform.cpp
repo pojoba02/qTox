@@ -38,19 +38,24 @@
 #include <QStandardPaths>
 #include <QDebug>
 
-static QStringList locales = {"bg",
+static QStringList locales = {"ar",
+                              "bg",
                               "cs",
+                              "da",
                               "de",
                               "et",
                               "el",
                               "en",
                               "es",
+                              "eo",
                               "fr",
+                              "he",
                               "hr",
-                              "hu",
                               "it",
                               "lt",
+                              "hu",
                               "nl",
+                              "ja",
                               "no_nb",
                               "pl",
                               "pt",
@@ -60,21 +65,25 @@ static QStringList locales = {"bg",
                               "sv",
                               "tr",
                               "uk",
-                              "ar",
                               "zh"};
-static QStringList langs = {"Български",
+static QStringList langs = {"Arabic",
+                            "Български",
                             "Čeština",
+                            "Dansk",
                             "Deutsch",
                             "Eesti",
                             "Ελληνικά",
                             "English",
                             "Español",
+                            "Esperanto",
                             "Français",
+                            "עברית",
                             "Hrvatski",
-                            "Magyar",
                             "Italiano",
                             "Lietuvių",
+                            "Magyar",
                             "Nederlands",
+                            "日本語",
                             "Norsk Bokmål",
                             "Polski",
                             "Português",
@@ -84,11 +93,7 @@ static QStringList langs = {"Български",
                             "Svenska",
                             "Türkçe",
                             "Українська",
-                            "Arabic",
                             "简体中文"};
-static QStringList mdPrefs = {"Plaintext",
-                              "Show Formatting Characters",
-                              "Don't Show Formatting Characters"};
 
 static QStringList timeFormats = {"hh:mm AP", "hh:mm", "hh:mm:ss AP", "hh:mm:ss"};
 // http://doc.qt.io/qt-4.8/qdate.html#fromString
@@ -110,8 +115,6 @@ GeneralForm::GeneralForm(SettingsWidget *myParent) :
         bodyUI->transComboBox->insertItem(i, langs[i]);
 
     bodyUI->transComboBox->setCurrentIndex(locales.indexOf(Settings::getInstance().getTranslation()));
-    for (int i = 0; i < mdPrefs.size(); i++)
-        bodyUI->markdownComboBox->insertItem(i, mdPrefs[i]);
 
     bodyUI->markdownComboBox->setCurrentIndex(Settings::getInstance().getMarkdownPreference());
     bodyUI->cbAutorun->setChecked(Settings::getInstance().getAutorun());
@@ -137,7 +140,12 @@ GeneralForm::GeneralForm(SettingsWidget *myParent) :
     bodyUI->showWindow->setChecked(showWindow);
     bodyUI->showInFront->setChecked(Settings::getInstance().getShowInFront());
     bodyUI->showInFront->setEnabled(showWindow);
-    bodyUI->notifySound->setChecked(Settings::getInstance().getNotifySound());
+
+    bool notifySound = Settings::getInstance().getNotifySound();
+
+    bodyUI->notifySound->setChecked(notifySound);
+    bodyUI->busySound->setChecked(Settings::getInstance().getBusySound());
+    bodyUI->busySound->setEnabled(notifySound);
     bodyUI->groupAlwaysNotify->setChecked(Settings::getInstance().getGroupAlwaysNotify());
     bodyUI->cbFauxOfflineMessaging->setChecked(Settings::getInstance().getFauxOfflineMessaging());
     bodyUI->cbCompactLayout->setChecked(Settings::getInstance().getCompactLayout());
@@ -216,6 +224,7 @@ GeneralForm::GeneralForm(SettingsWidget *myParent) :
     connect(bodyUI->showWindow, &QCheckBox::stateChanged, this, &GeneralForm::onShowWindowChanged);
     connect(bodyUI->showInFront, &QCheckBox::stateChanged, this, &GeneralForm::onSetShowInFront);
     connect(bodyUI->notifySound, &QCheckBox::stateChanged, this, &GeneralForm::onSetNotifySound);
+    connect(bodyUI->busySound, &QCheckBox::stateChanged, this, &GeneralForm::onSetBusySound);
     connect(bodyUI->markdownComboBox, &QComboBox::currentTextChanged, this, &GeneralForm::onMarkdownUpdated);
     connect(bodyUI->groupAlwaysNotify, &QCheckBox::stateChanged, this, &GeneralForm::onSetGroupAlwaysNotify);
     connect(bodyUI->autoacceptFiles, &QCheckBox::stateChanged, this, &GeneralForm::onAutoAcceptFileChange);
@@ -486,6 +495,11 @@ void GeneralForm::onSetShowInFront()
 void GeneralForm::onSetNotifySound()
 {
     Settings::getInstance().setNotifySound(bodyUI->notifySound->isChecked());
+}
+
+void GeneralForm::onSetBusySound()
+{
+    Settings::getInstance().setBusySound(bodyUI->busySound->isChecked());
 }
 
 void GeneralForm::onSetGroupAlwaysNotify()
